@@ -1,18 +1,9 @@
 defmodule Jenkiexs do
-  @moduledoc """
-  Documentation for Jenkiexs.
-  """
 
-  @doc """
-  Hello world.
+  defdelegate build(job, params), to: Jenkiexs.Jobs
+  defdelegate build(job), to: Jenkiexs.Jobs
+  defdelegate build_monitored(job, params), to: Jenkiexs.Jobs
+  defdelegate build_monitored(job), to: Jenkiexs.Jobs
+  defdelegate last_build(job), to: Jenkiexs.Builds, as: :last
 
-  ## Examples
-
-      iex> Jenkiexs.hello()
-      :world
-
-  """
-  def hello do
-    :world
-  end
 end

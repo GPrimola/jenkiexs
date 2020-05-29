@@ -1,0 +1,142 @@
+defmodule Jenkiexs.Client do
+  use HTTPoison.Base
+  require Logger
+
+  @impl true
+  def process_request_url(endpoint \\ "/"), do: api_url() <> endpoint
+
+  @impl true
+  def process_request_headers(headers)
+
+  def process_request_headers(headers) when is_list(headers) do
+    process_request_headers(Map.new(headers))
+  end
+
+  def process_request_headers(headers) when is_map(headers) do
+    hdrs =
+      default_headers()
+      |> Map.merge(access_headers())
+      |> Map.merge(headers)
+      |> Map.to_list()
+
+    Logger.debug("[#{__MODULE__}][request][headers] #{inspect(hdrs)}")
+
+    hdrs
+  end
+
+  @impl true
+  def process_request_params(params)
+
+  def process_request_params(params) when is_list(params) do
+    process_request_params(Map.new(params))
+  end
+
+  def process_request_params(params) when is_map(params) do
+    params_list =
+      default_params()
+      |> Map.merge(params)
+      |> Map.to_list()
+
+    Logger.debug("[#{__MODULE__}][request][params] #{inspect(params_list)}")
+
+    params_list
+  end
+
+  @impl true
+  def process_request_options(options)
+
+  def process_request_options(options) when is_list(options) do
+    process_request_options(Map.new(options))
+  end
+
+  def process_request_options(options) when is_map(options) do
+    default_options()
+    |> Map.merge(options)
+    |> Map.to_list()
+  end
+
+  @impl true
+  def process_request_body(body)
+
+  def process_request_body(body) do
+    Logger.debug("[#{__MODULE__}][request][body] #{inspect(body)}")
+    body
+  end
+
+  @impl true
+  def process_response_body(body)
+  def process_response_body("" = body), do: body
+
+  def process_response_body(body) do
+    Jason.decode!(body)
+  rescue
+    _ -> body
+  end
+
+  @impl true
+  def process_response_headers(headers)
+
+  def process_response_headers(headers) do
+    Logger.debug("[#{__MODULE__}][response][headers] #{inspect(headers)}")
+    headers
+  end
+
+  @spec default_headers() :: map()
+  defp default_headers do
+    %{
+      "Content-Type" => "application/json",
+      "Accept" => "application/json"
+    }
+  end
+
+  @spec access_headers() :: map()
+  defp access_headers do
+    username = Map.get(credentials(), :username, System.get_env("JENKINS_USERNAME"))
+    token = Map.get(credentials(), :token, System.get_env("JENKINS_TOKEN"))
+    basic_auth = Base.encode64("#{username}:#{token}")
+    auth_headers = %{"Authorization" => "Basic #{basic_auth}"}
+    [crumb_header, crumb_number] =
+      "#{api_url()}/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,\":\",//crumb)"
+      |> HTTPoison.get!(auth_headers)
+      |> Map.get(:body)
+      |> String.split(":")
+
+    Map.merge(auth_headers, %{crumb_header => crumb_number})
+  end
+
+  def access_token(), do: Map.get(credentials(), :token)
+
+  @spec config() :: [config_key: any()]
+  defp config, do: Application.get_env(:jenkiexs, :client)
+
+  @spec api_url() :: binary()
+  defp api_url, do: Keyword.get(config(), :url)
+
+  @spec credentials() :: map()
+  defp credentials do
+    Keyword.take(config(), [:username, :token])
+    |> Map.new()
+  end
+
+  @spec ssl_options() :: list()
+  defp ssl_options do
+    [
+      versions: [:"tlsv1.2"]
+    ]
+  end
+
+  @spec default_params() :: map()
+  defp default_params do
+    %{}
+  end
+
+  @spec default_options() :: map()
+  defp default_options do
+    # case Keyword.fetch!(config(), :records_fetch_timeout) do
+    #   timeout when is_binary(timeout) -> %{recv_timeout: String.to_integer(timeout)}
+    #   timeout when is_integer(timeout) -> %{recv_timeout: timeout}
+    # end
+    %{}
+    |> Map.merge(%{ssl: ssl_options()})
+  end
+end
