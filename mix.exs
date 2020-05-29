@@ -4,7 +4,7 @@ defmodule Jenkiexs.MixProject do
   def project do
     [
       app: :jenkiexs,
-      version: "0.9.0",
+      version: "0.9.1",
       elixir: "~> 1.9",
       start_permanent: Mix.env() == :prod,
       package: package(),
