@@ -7,48 +7,32 @@ defmodule Jenkiexs.Client do
 
   @impl true
   def process_request_headers(headers)
-
   def process_request_headers(headers) when is_list(headers) do
     process_request_headers(Map.new(headers))
   end
-
   def process_request_headers(headers) when is_map(headers) do
-    hdrs =
-      default_headers()
-      |> Map.merge(access_headers())
-      |> Map.merge(headers)
-      |> Map.to_list()
-
-    Logger.debug("[#{__MODULE__}][request][headers] #{inspect(hdrs)}")
-
-    hdrs
+    default_headers()
+    |> Map.merge(access_headers())
+    |> Map.merge(headers)
+    |> Map.to_list()
   end
 
   @impl true
   def process_request_params(params)
-
   def process_request_params(params) when is_list(params) do
     process_request_params(Map.new(params))
   end
-
   def process_request_params(params) when is_map(params) do
-    params_list =
-      default_params()
-      |> Map.merge(params)
-      |> Map.to_list()
-
-    Logger.debug("[#{__MODULE__}][request][params] #{inspect(params_list)}")
-
-    params_list
+    default_params()
+    |> Map.merge(params)
+    |> Map.to_list()
   end
 
   @impl true
   def process_request_options(options)
-
   def process_request_options(options) when is_list(options) do
     process_request_options(Map.new(options))
   end
-
   def process_request_options(options) when is_map(options) do
     default_options()
     |> Map.merge(options)
@@ -56,29 +40,12 @@ defmodule Jenkiexs.Client do
   end
 
   @impl true
-  def process_request_body(body)
-
-  def process_request_body(body) do
-    Logger.debug("[#{__MODULE__}][request][body] #{inspect(body)}")
-    body
-  end
-
-  @impl true
   def process_response_body(body)
   def process_response_body("" = body), do: body
-
   def process_response_body(body) do
     Jason.decode!(body)
   rescue
     _ -> body
-  end
-
-  @impl true
-  def process_response_headers(headers)
-
-  def process_response_headers(headers) do
-    Logger.debug("[#{__MODULE__}][response][headers] #{inspect(headers)}")
-    headers
   end
 
   @spec default_headers() :: map()
@@ -126,17 +93,8 @@ defmodule Jenkiexs.Client do
   end
 
   @spec default_params() :: map()
-  defp default_params do
-    %{}
-  end
+  defp default_params, do: %{}
 
   @spec default_options() :: map()
-  defp default_options do
-    # case Keyword.fetch!(config(), :records_fetch_timeout) do
-    #   timeout when is_binary(timeout) -> %{recv_timeout: String.to_integer(timeout)}
-    #   timeout when is_integer(timeout) -> %{recv_timeout: timeout}
-    # end
-    %{}
-    |> Map.merge(%{ssl: ssl_options()})
-  end
+  defp default_options, do: %{ssl: ssl_options()}
 end

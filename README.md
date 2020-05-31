@@ -1,6 +1,15 @@
 # Jenkiexs
 
-**TODO: Add description**
+A Elixir Jenkins client.
+
+## Usage
+
+```config
+config :jenkiexs, :client,
+  url: "http://jenkins.url",
+  username: "username",
+  token: "1a2b3c4d5e6f"
+```
 
 ## Installation
 
@@ -10,7 +19,7 @@ by adding `jenkiexs` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:jenkiexs, "~> 0.1.0"}
+    {:jenkiexs, "~> 0.9.2"}
   ]
 end
 ```
@@ -18,4 +27,3 @@ end
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/jenkiexs](https://hexdocs.pm/jenkiexs).
-

@@ -1,10 +1,11 @@
 defmodule Jenkiexs.Builds.Monitor do
   alias Jenkiexs.Builds
-  alias Jenkiexs.Jobs.Build
+  alias Jenkiexs.Builds.Build
 
   @queue_time 2_000
   @after_build_duration_time 1_000
 
+  @spec monitor(Build.t()) :: {:ok, Task.t()}
   def monitor(%Build{estimated_duration: duration} = build) do
     task = Task.async(fn ->
       check(build, duration + @queue_time)

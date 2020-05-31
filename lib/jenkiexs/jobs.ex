@@ -1,9 +1,21 @@
 defmodule Jenkiexs.Jobs do
   alias Jenkiexs.{Builds, Client}
-  alias Jenkiexs.Jobs.{Build, Job}
+  alias Jenkiexs.Builds.Build
+  alias Jenkiexs.Jobs.Job
 
   @type job_name() :: binary()
 
+  @doc """
+  Returns a list with all jobs.
+
+  ## Examples
+
+      iex> Jenkiexs.Jobs.all()
+      {:ok, [%Job{}, ...]}
+
+      iex> Jenkiexs.Jobs.all()
+      {:error, "reason"}
+  """
   @spec all() :: {:ok, list(Job.t())} | {:error, reason :: binary()}
   def all do
     case Client.get!("/api/json?tree=jobs[name,description,fullName,displayName,fullDisplayName,inQueue,buildable,disabled,nextBuildNumber,property[parameterDefinitions[name,defaultParameterValue[value]]]]") do
@@ -17,6 +29,14 @@ defmodule Jenkiexs.Jobs do
     end
   end
 
+  @doc """
+  Returns a list with all jobs.
+
+  ## Examples
+
+      iex> Jenkiexs.Jobs.all!()
+      [%Job{}, ...]
+  """
   @spec all!() :: list(Job.t())
   def all! do
     case all() do
@@ -25,6 +45,11 @@ defmodule Jenkiexs.Jobs do
     end
   end
 
+  @doc """
+  Returns detailed information of a job.
+
+  See `Jenkiexs.Jobs.Job` struct.
+  """
   @spec details(Job.t() | job_name()) :: {:ok, Job.t()} | {:error, reason :: binary()}
   def details(%Job{name: job_name} = _job), do: details(job_name)
   def details(job_name) do
@@ -45,6 +70,20 @@ defmodule Jenkiexs.Jobs do
     end
   end
 
+  @doc """
+  Starts a job with the given parameters.
+
+  ## Examples
+
+      iex> Jenkiexs.Jobs.build("my-job")
+      {:ok, %Build{}}
+
+      iex> Jenkiexs.Jobs.build("my-job", param1: "foo", param2: "bar")
+      {:ok, %Build{}}
+
+      iex> Jenkiexs.Jobs.build("my-job")
+      {:error, "reason"}
+  """
   @spec build(Job.t() | job_name(), params :: keyword()) :: {:ok, Build.t()} | {:error, reason :: binary()}
   def build(job, params \\ [])
   def build(%Job{name: job_name} = _job, params),
@@ -69,6 +108,17 @@ defmodule Jenkiexs.Jobs do
     end
   end
 
+  @doc """
+  Starts a job.
+
+  ## Examples
+
+      iex> Jenkiexs.Jobs.build!("my-job")
+      %Build{}
+
+      iex> Jenkiexs.Jobs.build!("my-job", param1: "foo", param2: "bar")
+      %Build{}
+  """
   @spec build!((Job.t() | job_name()), params :: keyword()) :: Build.t()
   def build!(job, params \\ [])
   def build!(%Job{name: job_name} = _job, params), do: build!(job_name, params)
@@ -79,6 +129,20 @@ defmodule Jenkiexs.Jobs do
     end
   end
 
+  @doc """
+  Starts a job and returns a task that monitor its execution.
+
+  ## Examples
+
+      iex> Jenkiexs.Jobs.build_monitored("my-job")
+      {:ok, %Task{} :: {:ok, %Build{}}}
+
+      iex> Jenkiexs.Jobs.build_monitored("my-job", param1: "foo", param2: "bar")
+      {:ok, %Task{} :: {:ok, %Build{}}}
+
+      iex> Jenkiexs.Jobs.build_monitored("my-job", param1: "foo", param2: "bar")
+      {:error, "reason"}
+  """
   @spec build_monitored((Job.t() | job_name()), keyword())
     :: {:ok, Task.t()} | {:error, reason :: binary()}
   def build_monitored(job, params \\ []) do
@@ -91,6 +155,22 @@ defmodule Jenkiexs.Jobs do
     end
   end
 
+  @doc """
+  Gets an output log of a specific build.
+
+  If build number is not provided, it will return the last build's output log.
+
+  ## Examples
+
+      iex> Jenkiexs.Jobs.get_console_text("my-job")
+      {:ok, "log"}
+
+      iex> Jenkiexs.Jobs.get_console_text("my-job", 1234)
+      {:ok, "log"}
+
+      iex> Jenkiexs.Jobs.get_console_text("my-job")
+      {:error, "reason"}
+  """
   @spec get_console_text(Job.t() | job_name()) :: {:ok, binary()} | {:error, reason :: binary()}
   def get_console_text(job, build_number \\ :last_build)
   def get_console_text(%Job{name: job_name} = _job, %Build{number: build_num}),
@@ -103,6 +183,20 @@ defmodule Jenkiexs.Jobs do
     |> process_response_log_text()
   end
 
+
+  @doc """
+  Gets an output log of a specific build.
+
+  If build number is not provided, it will return the last build's output log.
+
+  ## Examples
+
+      iex> Jenkiexs.Jobs.get_console_text!("my-job")
+      "log"
+
+      iex> Jenkiexs.Jobs.get_console_text!("my-job", 1234)
+      "log"
+  """
   @spec get_console_text!(Job.t() | job_name()) :: binary()
   def get_console_text!(job, build_number \\ :last_build)
   def get_console_text!(%Job{name: job_name} = _job, %Build{number: build_num}),
@@ -116,6 +210,30 @@ defmodule Jenkiexs.Jobs do
     end
   end
 
+  @doc """
+  Gets an output log of a specific build.
+
+  If build number is not provided, it will return the last build's output log.
+
+  You can get the output in text or HTML. Defaults to text.
+
+  ## Examples
+
+      iex> Jenkiexs.Jobs.get_console_output("my-job")
+      {:ok, "log"}
+
+      iex> Jenkiexs.Jobs.get_console_output("my-job", 1234)
+      {:ok, "log"}
+
+      iex> Jenkiexs.Jobs.get_console_output("my-job", 1234, :html)
+      {:ok, "log"}
+
+      iex> Jenkiexs.Jobs.get_console_output("my-job", 1234, :text)
+      {:ok, "log"}
+
+      iex> Jenkiexs.Jobs.get_console_output("my-job")
+      {:error, "reason"}
+  """
   @spec get_console_output(Job.t() | job_name()) :: {:ok, binary()} | {:error, reason :: binary()}
   def get_console_output(job, build_number \\ :last_build, output \\ :text)
   def get_console_output(%Job{name: job_name} = _job, %Build{number: build_num}, output),
@@ -129,6 +247,27 @@ defmodule Jenkiexs.Jobs do
     |> process_response_log_text()
   end
 
+  @doc """
+  Gets an output log of a specific build.
+
+  If build number is not provided, it will return the last build's output log.
+
+  You can get the output in text or HTML. Defaults to text.
+
+  ## Examples
+
+      iex> Jenkiexs.Jobs.get_console_output!("my-job")
+      {:ok, "log"}
+
+      iex> Jenkiexs.Jobs.get_console_output!("my-job", 1234)
+      {:ok, "log"}
+
+      iex> Jenkiexs.Jobs.get_console_output!("my-job", 1234, :html)
+      {:ok, "log"}
+
+      iex> Jenkiexs.Jobs.get_console_output!("my-job", 1234, :text)
+      {:ok, "log"}
+  """
   @spec get_console_output!(Job.t() | job_name()) :: binary()
   def get_console_output!(job, build_number \\ :last_build, output \\ :text)
   def get_console_output!(%Job{name: job_name} = _job, %Build{number: build_num}, output),

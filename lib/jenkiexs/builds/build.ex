@@ -1,4 +1,4 @@
-defmodule Jenkiexs.Jobs.Build do
+defmodule Jenkiexs.Builds.Build do
   defstruct [
     :job_name,
     :number,
@@ -9,6 +9,17 @@ defmodule Jenkiexs.Jobs.Build do
     :result,
     :timestamp
   ]
+
+  @type t() :: %__MODULE__{
+    job_name: binary(),
+    number: integer(),
+    parameters: map(),
+    building?: boolean(),
+    duration: milliseconds :: integer(),
+    estimated_duration: milliseconds :: integer(),
+    result: binary(),
+    timestamp: binary()
+  }
 
   @jenkins_build_attrs ~w(
     number

@@ -3,17 +3,22 @@ defmodule Jenkiexs.Builds do
   @type job_name() :: binary()
 
   alias Jenkiexs.Client
-  alias Jenkiexs.Builds.Monitor
-  alias Jenkiexs.Jobs.{Build, Job}
+  alias Jenkiexs.Builds.{Build, Monitor}
+  alias Jenkiexs.Jobs.Job
 
   defdelegate monitor(build), to: Monitor
 
+  @spec details(Build.t()) :: {:ok, Build.t()} | {:error, binary()}
   def details(%Build{job_name: job_name, number: build_number}),
     do: details(job_name, build_number)
+
+  @spec details(Job.t(), Build.t() | binary() | integer()) :: {:ok, Build.t()} | {:error, binary()}
   def details(%Job{name: job_name} = _job, %Build{number: build_number}),
     do: details(job_name, build_number)
   def details(%Job{name: job_name} = _job, build_number),
     do: details(job_name, build_number)
+
+  @spec details(job_name(), build_number :: binary() | integer()) :: {:ok, Build.t()} | {:error, binary()}
   def details(job_name, build_number) do
     case Client.get!("/job/#{job_name}/#{build_number}/api/json") do
       %{status_code: 200, body: body} ->
