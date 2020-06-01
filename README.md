@@ -1,6 +1,6 @@
 # Jenkiexs
 
-A Elixir Jenkins client.
+This is a [Jenkins](https://www.jenkins.io/) client written in Elixir.
 
 ## Usage
 
@@ -10,6 +10,10 @@ config :jenkiexs, :client,
   username: "username",
   token: "1a2b3c4d5e6f"
 ```
+
+## Documentation
+
+The documentation will be at HexDocs [Jenkiexs](https://hexdocs.pm/jenkiexs/Jenkiexs.html#content)
 
 ## Installation
 
