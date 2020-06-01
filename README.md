@@ -4,7 +4,7 @@ This is a [Jenkins](https://www.jenkins.io/) client written in Elixir.
 
 ## Usage
 
-```config
+```elixir
 config :jenkiexs, :client,
   url: "http://jenkins.url",
   username: "username",
