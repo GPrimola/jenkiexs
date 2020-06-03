@@ -24,7 +24,7 @@ defmodule Jenkiexs.MixProject do
     [
       {:httpoison, "~> 1.6"},
       {:jason, "~> 1.2"},
-      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
+      {:ex_doc, ">= 0.0.0", runtime: false}
     ]
   end
 
