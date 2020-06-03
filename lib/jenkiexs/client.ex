@@ -58,8 +58,8 @@ defmodule Jenkiexs.Client do
 
   @spec access_headers() :: map()
   defp access_headers do
-    username = Map.get(credentials(), :username, System.get_env("JENKINS_USERNAME"))
-    token = Map.get(credentials(), :token, System.get_env("JENKINS_TOKEN"))
+    username = System.get_env("JENKINS_USERNAME") || Map.get(credentials(), :username)
+    token = System.get_env("JENKINS_TOKEN") || Map.get(credentials(), :token)
     basic_auth = Base.encode64("#{username}:#{token}")
     auth_headers = %{"Authorization" => "Basic #{basic_auth}"}
     [crumb_header, crumb_number] =
@@ -77,7 +77,7 @@ defmodule Jenkiexs.Client do
   defp config, do: Application.get_env(:jenkiexs, :client)
 
   @spec api_url() :: binary()
-  defp api_url, do: Keyword.get(config(), :url)
+  defp api_url, do: System.get_env("JENKINS_URL") || Keyword.get(config(), :url)
 
   @spec credentials() :: map()
   defp credentials do

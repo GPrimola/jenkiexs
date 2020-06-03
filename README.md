@@ -4,6 +4,8 @@ A Elixir Jenkins client.
 
 ## Usage
 
+You can export `JENKINS_URL`, `JENKINS_USERNAME` and `JENKINS_TOKEN` env vars;
+or
 ```config
 config :jenkiexs, :client,
   url: "http://jenkins.url",
@@ -19,7 +21,7 @@ by adding `jenkiexs` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:jenkiexs, "~> 0.9.2"}
+    {:jenkiexs, "~> 0.9.3"}
   ]
 end
 ```
