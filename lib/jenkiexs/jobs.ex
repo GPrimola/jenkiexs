@@ -281,6 +281,15 @@ defmodule Jenkiexs.Jobs do
     end
   end
 
+  @spec url(Job.t()) :: binary()
+  def url(%Job{name: job} = _job),
+    do: url(job)
+
+  def url(job_name) when is_binary(job_name) do
+    base_url = Application.get_env(:jenkiexs, :client) |> Keyword.get(:url)
+    "#{base_url}/job/#{job_name}"
+  end
+
   defp process_response_log_text(%{status_code: 200, body: body}) do
     {:ok, body}
   end
