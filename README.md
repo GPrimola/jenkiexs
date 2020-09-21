@@ -1,3 +1,8 @@
+
+<div align="center">
+  <img src="https://raw.githubusercontent.com/GPrimola/jenkiexs/master/priv/img/Jenkiexs-logo.png" alt="Jenkiexs Logo" width="200"/>
+</div>
+
 # Jenkiexs
 
 [![Coverage Status](https://coveralls.io/repos/github/GPrimola/jenkiexs/badge.svg?branch=master)](https://coveralls.io/github/GPrimola/jenkiexs?branch=master)
@@ -5,8 +10,6 @@
 ![Hex.pm](https://img.shields.io/hexpm/v/jenkiexs)
 
 This is a [Jenkins](https://www.jenkins.io/) client written in Elixir.
-
-<img src="https://raw.githubusercontent.com/GPrimola/jenkiexs/master/priv/img/Jenkiexs-logo.png" alt="drawing" width="200"/>
 
 ## Usage
 
