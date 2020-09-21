@@ -6,6 +6,8 @@
 
 This is a [Jenkins](https://www.jenkins.io/) client written in Elixir.
 
+![JenkiexsLogo](https://github.com/GPrimola/jenkiexs/blob/master/priv/img/Jenkins_logo.png)
+
 ## Usage
 
 You can export `JENKINS_URL`, `JENKINS_USERNAME` and `JENKINS_TOKEN` env vars;
