@@ -6,7 +6,7 @@
 
 This is a [Jenkins](https://www.jenkins.io/) client written in Elixir.
 
-![JenkiexsLogo](https://github.com/GPrimola/jenkiexs/blob/master/priv/img/Jenkins_logo.png)
+<img src="https://raw.githubusercontent.com/GPrimola/jenkiexs/master/priv/img/Jenkiexs-logo.png" alt="drawing" width="200"/>
 
 ## Usage
 
