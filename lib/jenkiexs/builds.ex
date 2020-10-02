@@ -62,8 +62,8 @@ defmodule Jenkiexs.Builds do
 
   ## Examples
 
-      iex> Jenkiexs.Build.url(%Build{job_name: "example", number: 42})
-      "http://localhost/job/example/42"
+      iex> Jenkiexs.Builds.url(%Jenkiexs.Builds.Build{job_name: "example", number: 42})
+      "http://localhost:8888/job/example/42"
 
   """
 
