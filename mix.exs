@@ -9,6 +9,7 @@ defmodule Jenkiexs.MixProject do
       start_permanent: Mix.env() == :prod,
       package: package(),
       deps: deps(),
+      elixirc_paths: elixirc_paths(Mix.env()),
       source_url: "https://github.com/GPrimola/jenkiexs",
       homepage_url: "https://hex.pm/packages/jenkiexs"
     ]
@@ -38,4 +39,7 @@ defmodule Jenkiexs.MixProject do
       links: %{"GitHub" => "https://github.com/GPrimola/jenkiexs"}
     ]
   end
+
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
 end
