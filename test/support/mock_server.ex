@@ -1,18 +1,17 @@
 defmodule Jenkiexs.MockServer do
   def start do
     case Process.whereis(__MODULE__) do
-      nil -> start_servers()
+      nil -> start_server()
       pid -> {:ok, pid}
     end
   end
 
-  defp start_servers() do
+  defp start_server() do
     config = Application.get_env(:jenkiexs, :mock_server)
     jenkins_config = config[:jenkins]
 
     children = [
       {Plug.Cowboy,
-       name: JenkinsMockServer,
        scheme: :http,
        plug: Jenkiexs.MockServer.Jenkins,
        options: [port: Keyword.get(jenkins_config, :port)]}

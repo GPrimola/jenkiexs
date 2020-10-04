@@ -11,7 +11,7 @@ defmodule Jenkiexs.Factory do
       "inQueue" => false,
       "buildable" => true,
       "disabled" => false,
-      "nextBuildNumber" => sequece("nextBuildNumber", &(&1)),
+      "nextBuildNumber" => sequence("nextBuildNumber", &(&1)),
       "property" => build(:job_property),
       "builds" => build_list(5, :build),
     }
@@ -36,7 +36,7 @@ defmodule Jenkiexs.Factory do
   def build_factory do
     %{
       "number" => sequence("number", &(&1)),
-      "actions" => build_list(:build_action),
+      "actions" => build_list(5, :build_action),
       "building" => false,
       "duration" => 1234,
       "estimatedDuration" => 1234,
