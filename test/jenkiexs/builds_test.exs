@@ -1,6 +1,5 @@
 defmodule Jenkiexs.BuildsTest do
   use ExUnit.Case
-  doctest Jenkiexs.Builds
 
   alias Jenkiexs.{Builds, Builds.Build}
 

@@ -12,23 +12,34 @@ defmodule Jenkiexs.MockServer.Jenkins do
 
   get "/job/:job_name/api/json" do
     case conn.params["job_name"] do
-      job -> true
+      _job -> true
     end
+  end
+
+  get "/job/:job_name/lastBuild/api/json" do
+    case conn.params["job_name"] do
+      "success_job" ->
+        send_resp(conn, 200, Jason.encode!(build(:build)))
+
+      "not_found_job" ->
+        send_resp(conn, 404, "")
+
+      _ ->
+        send_resp(conn, 500, "something went wrong")
+    end
+  end
+
+  get "/crumbIssuer/api/xml" do
+    send_resp(conn, 200, ":")
   end
 
   post "/job/:job_name/build" do
     case conn.params["job_name"] do
-      job -> true
+      _job -> true
     end
   end
 
   post "/job/:job_name/buildWithParameters" do
     send_resp(conn, 200, Jason.encode!(%{token: "token", apiKey: "apiKey"}))
-  end
-
-  defp config() do
-    :jenkiexs
-    |> Application.get_env(:mock_server)
-    |> Keyword.get(:jenkins, [])
   end
 end
