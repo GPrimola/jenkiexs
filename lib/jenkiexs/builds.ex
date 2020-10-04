@@ -73,7 +73,17 @@ defmodule Jenkiexs.Builds do
     end
   end
 
-  @spec url(Build.t()) :: binary()
+  @doc """
+  Returns the job URL based on a given Build.
+
+  ## Examples
+
+      iex> Jenkiexs.Builds.url(%Jenkiexs.Builds.Build{job_name: "example", number: 42})
+      "http://localhost:8888/job/example/42"
+
+  """
+
+  @spec url(Build.t()) :: String.t()
   def url(%Build{job_name: job, number: number} = _build) do
     base_url = Application.get_env(:jenkiexs, :client) |> Keyword.get(:url)
     "#{base_url}/job/#{job}/#{number}"
