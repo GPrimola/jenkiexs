@@ -37,14 +37,14 @@ defmodule Jenkiexs.Builds do
 
   ## Examples
 
-      iex> Jenkiexs.Build.last(%Job{name: "example"})
-      {:ok, %Build{job_name: "example", number: 42, building: true, ...}}
+      iex> Jenkiexs.Builds.last(%Jenkiexs.Jobs.Job{name: "example"})
+      {:ok, %Jenkiexs.Builds.Build{job_name: "example", number: 42, building?: true}}
 
-      iex> Jenkiexs.Build.last("example")
-      {:ok, %Build{job_name: "example", number: 42, building: true, ...}}
+      iex> Jenkiexs.Builds.last("example")
+      {:ok, %Jenkiexs.Builds.Build{job_name: "example", number: 42, building?: true}}
 
-      iex> Jenkiexs.Build.last("another_example")
-      {:error}
+      iex> Jenkiexs.Builds.last("another_example")
+      {:error, "reason"}
 
   """
 
