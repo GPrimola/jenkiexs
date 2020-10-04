@@ -1,4 +1,4 @@
-name: Elixir CI
+name: Jenkiexs Unit Tests
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 jobs:
   build:
 
-    name: Build and test
+    name: Unit Tests
     runs-on: ubuntu-latest
 
     steps:
