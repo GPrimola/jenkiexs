@@ -5,6 +5,7 @@
 
 # Jenkiexs
 
+![Elixir CI](https://github.com/MrSoUndso/jenkiexs/workflows/Elixir%20CI/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/GPrimola/jenkiexs/badge.svg?branch=master)](https://coveralls.io/github/GPrimola/jenkiexs?branch=master)
 [![Docs](https://img.shields.io/badge/api-docs-blueviolet.svg?style=flat)](https://hexdocs.pm/jenkiexs)
 ![Hex.pm](https://img.shields.io/hexpm/v/jenkiexs)
