@@ -16,4 +16,21 @@ defmodule Jenkiexs.BuildsTest do
       assert "#{base_url}/job//" == Builds.url(%Build{})
     end
   end
+
+  describe "last/1" do
+    test "should return last build of the given job" do
+      job_name = "success_job"
+      assert {:ok, build} = Builds.last(job_name)
+    end
+
+    test "should return error when job doesn't exist" do
+      job_name = "not_found_job"
+      assert {:error, "Got status 404 with body \"\"."} = Builds.last(job_name)
+    end
+
+    test "should return error when something is wrong" do
+      job_name = "broken job"
+      assert {:error, "Got status 500 with body \"something went wrong\"."} = Builds.last(job_name)
+    end
+  end
 end
