@@ -16,9 +16,9 @@ jobs:
     - name: Cache Dependencies
       uses: actions/cache@v2
       with:
-        path:
-          - deps
-          - _build/test/lib
+        path: |
+          deps
+          _build/test/lib
         key: ${{ runner.os }}-mix-test-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
         restore-keys: |
           ${{ runner.os }}-mix-test-
