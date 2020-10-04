@@ -31,16 +31,55 @@ jobs:
         MIX_ENV: test
       run: mix deps.compile
 
+    - name: Build Jenkiexs
+      env:
+        MIX_ENV: test
+      run: mix compile
+
   lint:
     runs-on: ubuntu-latest
     needs: build
+
     steps:
-      - env:
-          MIX_ENV: test
-        run: mix format --check-formatted
+    - uses: actions/checkout@v2
+    - name: Set up Elixir
+      uses: actions/setup-elixir@v1
+      with:
+        elixir-version: '1.10.3' # Define the elixir version [required]
+        otp-version: '22.3' # Define the OTP version [required]
+    - name: Cache Dependencies
+      uses: actions/cache@v2
+      with:
+        path: |
+          deps
+          _build/test/lib
+        key: ${{ runner.os }}-mix-test-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
+        restore-keys: |
+          ${{ runner.os }}-mix-test-
+
+    - env:
+        MIX_ENV: test
+      run: mix format --check-formatted
 
   test:
     runs-on: ubuntu-latest
     needs: build
+
     steps:
-      - run: mix test
+    - uses: actions/checkout@v2
+    - name: Set up Elixir
+      uses: actions/setup-elixir@v1
+      with:
+        elixir-version: '1.10.3' # Define the elixir version [required]
+        otp-version: '22.3' # Define the OTP version [required]
+    - name: Cache Dependencies
+      uses: actions/cache@v2
+      with:
+        path: |
+          deps
+          _build/test/lib
+        key: ${{ runner.os }}-mix-test-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
+        restore-keys: |
+          ${{ runner.os }}-mix-test-
+
+    - run: mix test
