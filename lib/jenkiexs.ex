@@ -9,10 +9,10 @@ defmodule Jenkiexs do
   ## Examples
 
       iex> Jenkiexs.Jobs.build("my-job")
-      {:ok, %Build{}}
+      {:ok, %Jenkiexs.Builds.Build{}}
 
       iex> Jenkiexs.Jobs.build("my-job", param1: "foo", param2: "bar")
-      {:ok, %Build{}}
+      {:ok, %Jenkiexs.Builds.Build{}}
 
       iex> Jenkiexs.Jobs.build("my-job")
       {:error, "reason"}
@@ -30,10 +30,10 @@ defmodule Jenkiexs do
   ## Examples
 
       iex> Jenkiexs.Jobs.build_monitored("my-job")
-      {:ok, %Task{} :: {:ok, %Build{}}}
+      {:ok, %Task{pid: 1, ref: 2, owner: 3}}
 
       iex> Jenkiexs.Jobs.build_monitored("my-job", param1: "foo", param2: "bar")
-      {:ok, %Task{} :: {:ok, %Build{}}}
+      {:ok, %Task{pid: 1, ref: 2, owner: 3}}
 
       iex> Jenkiexs.Jobs.build_monitored("my-job", param1: "foo", param2: "bar")
       {:error, "reason"}
