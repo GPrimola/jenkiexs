@@ -32,6 +32,22 @@ defmodule Jenkiexs.Builds do
     end
   end
 
+  @doc """
+  Returns the last job builded.
+
+  ## Examples
+
+      iex> Jenkiexs.Build.last(%Job{name: "example"})
+      {:ok, %Build{job_name: "example", number: 42, building: true, ...}}
+
+      iex> Jenkiexs.Build.last("example")
+      {:ok, %Build{job_name: "example", number: 42, building: true, ...}}
+
+      iex> Jenkiexs.Build.last("another_example")
+      {:error}
+
+  """
+
   @spec last(Job.t() | job_name()) ::
           {:ok, Build.t()} | {:error, reason :: binary()}
   def last(%Job{name: job_name} = _job), do: last(job_name)
