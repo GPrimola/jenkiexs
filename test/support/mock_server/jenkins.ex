@@ -2,8 +2,9 @@ defmodule Jenkiexs.MockServer.Jenkins do
   use Jenkiexs.MockServer
 
   get "/api/json" do
-    cond  do
-      is_nil(conn.params["tree"]) -> nil
+    cond do
+      is_nil(conn.params["tree"]) ->
+        nil
 
       String.match?(conn.params["tree"], ~r/\Ajobs/) ->
         "jobs[name,description,fullName,displayName,fullDisplayName,inQueue,buildable,disabled,nextBuildNumber,property[parameterDefinitions[name,defaultParameterValue[value]]]]"

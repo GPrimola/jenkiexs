@@ -30,7 +30,9 @@ defmodule Jenkiexs.BuildsTest do
 
     test "should return error when something is wrong" do
       job_name = "broken job"
-      assert {:error, "Got status 500 with body \"something went wrong\"."} = Builds.last(job_name)
+
+      assert {:error, "Got status 500 with body \"something went wrong\"."} =
+               Builds.last(job_name)
     end
   end
 end

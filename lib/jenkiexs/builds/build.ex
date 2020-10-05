@@ -11,15 +11,15 @@ defmodule Jenkiexs.Builds.Build do
   ]
 
   @type t() :: %__MODULE__{
-    job_name: binary(),
-    number: integer(),
-    parameters: map(),
-    building?: boolean(),
-    duration: milliseconds :: integer(),
-    estimated_duration: milliseconds :: integer(),
-    result: binary(),
-    timestamp: binary()
-  }
+          job_name: binary(),
+          number: integer(),
+          parameters: map(),
+          building?: boolean(),
+          duration: milliseconds :: integer(),
+          estimated_duration: milliseconds :: integer(),
+          result: binary(),
+          timestamp: binary()
+        }
 
   @jenkins_build_attrs ~w(
     number
@@ -35,6 +35,7 @@ defmodule Jenkiexs.Builds.Build do
 
   def jenkins_build_attrs, do: @jenkins_build_attrs
   def jenkins_build_actions_attrs, do: @jenkins_build_actions_attrs
+
   def jenkins_build_actions_paramenters_attrs,
     do: @jenkins_build_actions_paramenters_attrs
 end

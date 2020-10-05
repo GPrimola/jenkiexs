@@ -7,9 +7,11 @@ defmodule Jenkiexs.Client do
 
   @impl true
   def process_request_headers(headers)
+
   def process_request_headers(headers) when is_list(headers) do
     process_request_headers(Map.new(headers))
   end
+
   def process_request_headers(headers) when is_map(headers) do
     default_headers()
     |> Map.merge(access_headers())
@@ -19,9 +21,11 @@ defmodule Jenkiexs.Client do
 
   @impl true
   def process_request_params(params)
+
   def process_request_params(params) when is_list(params) do
     process_request_params(Map.new(params))
   end
+
   def process_request_params(params) when is_map(params) do
     default_params()
     |> Map.merge(params)
@@ -30,9 +34,11 @@ defmodule Jenkiexs.Client do
 
   @impl true
   def process_request_options(options)
+
   def process_request_options(options) when is_list(options) do
     process_request_options(Map.new(options))
   end
+
   def process_request_options(options) when is_map(options) do
     default_options()
     |> Map.merge(options)
@@ -42,6 +48,7 @@ defmodule Jenkiexs.Client do
   @impl true
   def process_response_body(body)
   def process_response_body("" = body), do: body
+
   def process_response_body(body) do
     Jason.decode!(body)
   rescue
@@ -62,6 +69,7 @@ defmodule Jenkiexs.Client do
     token = Map.get(credentials(), :token, System.get_env("JENKINS_TOKEN"))
     basic_auth = Base.encode64("#{username}:#{token}")
     auth_headers = %{"Authorization" => "Basic #{basic_auth}"}
+
     [crumb_header, crumb_number] =
       "#{api_url()}/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,\":\",//crumb)"
       |> HTTPoison.get!(auth_headers)

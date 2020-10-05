@@ -11,16 +11,15 @@ defmodule Jenkiexs.Factory do
       "inQueue" => false,
       "buildable" => true,
       "disabled" => false,
-      "nextBuildNumber" => sequence("nextBuildNumber", &(&1)),
+      "nextBuildNumber" => sequence("nextBuildNumber", & &1),
       "property" => build(:job_property),
-      "builds" => build_list(5, :build),
+      "builds" => build_list(5, :build)
     }
   end
 
   def job_property_factory do
     %{
-      "parameterDefinitions" =>
-        build_list(5, :job_property_parameter_definitions)
+      "parameterDefinitions" => build_list(5, :job_property_parameter_definitions)
     }
   end
 
@@ -35,13 +34,13 @@ defmodule Jenkiexs.Factory do
 
   def build_factory do
     %{
-      "number" => sequence("number", &(&1)),
+      "number" => sequence("number", & &1),
       "actions" => build_list(5, :build_action),
       "building" => false,
       "duration" => 1234,
       "estimatedDuration" => 1234,
       "result" => "SUCCESS",
-      "timestamp" => NaiveDateTime.utc_now(),
+      "timestamp" => NaiveDateTime.utc_now()
     }
   end
 

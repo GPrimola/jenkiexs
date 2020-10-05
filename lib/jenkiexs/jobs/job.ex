@@ -15,19 +15,19 @@ defmodule Jenkiexs.Jobs.Job do
   ]
 
   @type t() :: %__MODULE__{
-    name: binary(),
-    path: binary(),
-    full_name: binary(),
-    display_name: binary(),
-    full_display_name: binary(),
-    in_queue?: boolean(),
-    disabled?: boolean(),
-    buildable?: boolean(),
-    description: binary(),
-    build_parameters: map(),
-    next_build_number: integer(),
-    last_build_number: integer()
-  }
+          name: binary(),
+          path: binary(),
+          full_name: binary(),
+          display_name: binary(),
+          full_display_name: binary(),
+          in_queue?: boolean(),
+          disabled?: boolean(),
+          buildable?: boolean(),
+          description: binary(),
+          build_parameters: map(),
+          next_build_number: integer(),
+          last_build_number: integer()
+        }
 
   @jenkins_job_attrs ~w(
       name
@@ -51,9 +51,10 @@ defmodule Jenkiexs.Jobs.Job do
 
   def jenkins_job_attrs, do: @jenkins_job_attrs
   def jenkins_job_property_attrs, do: @jenkins_job_property_attrs
+
   def jenkins_job_property_paramenter_definitions_attrs,
     do: @jenkins_job_property_paramenter_definitions_attrs
+
   def jenkins_job_property_paramenter_definitions_default_parameter_attrs,
     do: @jenkins_job_property_paramenter_definitions_default_parameter_attrs
-
 end

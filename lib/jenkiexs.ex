@@ -49,5 +49,4 @@ defmodule Jenkiexs do
   Returns the last build of a given job.
   """
   defdelegate last_build(job), to: Jenkiexs.Builds, as: :last
-
 end
