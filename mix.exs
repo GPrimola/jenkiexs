@@ -1,16 +1,21 @@
 defmodule Jenkiexs.MixProject do
   use Mix.Project
 
+  @version "0.9.4"
+  @source_url "https://github.com/GPrimola/jenkiexs"
+
   def project do
     [
       app: :jenkiexs,
-      version: "0.9.4",
+      version: @version,
       elixir: "~> 1.9",
       start_permanent: Mix.env() == :prod,
+      description: "Jenkins client written in Elixir",
       package: package(),
       deps: deps(),
+      docs: docs(),
       elixirc_paths: elixirc_paths(Mix.env()),
-      source_url: "https://github.com/GPrimola/jenkiexs",
+      source_url: @source_url,
       homepage_url: "https://hex.pm/packages/jenkiexs"
     ]
   end
@@ -31,14 +36,22 @@ defmodule Jenkiexs.MixProject do
     ]
   end
 
+  defp docs do
+    [
+      main: "readme",
+      source_url: @source_url,
+      logo: "priv/img/jenkiexs-logo.png",
+      extras: [
+        "README.md"
+      ]
+    ]
+  end
+
   def package do
     [
       name: "jenkiexs",
-      description: """
-      This is a [Jenkins](https://www.jenkins.io/) client written in Elixir.
-      """,
       licenses: ["Apache-2.0"],
-      links: %{"GitHub" => "https://github.com/GPrimola/jenkiexs"}
+      links: %{"GitHub" => @source_url}
     ]
   end
 
