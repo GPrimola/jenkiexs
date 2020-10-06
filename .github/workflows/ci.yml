@@ -110,4 +110,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-mix-test-
 
-      - run: mix coveralls.github
+      - name: Build ExCoveralls
+        run: mix compile excoveralls
+
+      - name: Coverage Summary
+        run: mix coveralls
+
+      - name: Publish Coverage
+        run: mix coveralls.github
