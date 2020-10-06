@@ -5,6 +5,20 @@ defmodule Jenkiexs.Builds.Monitor do
   @queue_time 2_000
   @after_build_duration_time 1_000
 
+  @doc """
+  Monitors when a running build ends.
+
+  Returns a task that yields a build when complete.
+
+  ## Examples
+
+    iex> Jenkiexs.Builds.Monitor.monitor(%Build{})
+    {:ok, task}
+
+    iex> Jenkiexs.Builds.Monitor.monitor(%Build{})
+    {:ok, Build.t()}
+  """
+
   @spec monitor(Build.t()) :: {:ok, Task.t()}
   def monitor(%Build{estimated_duration: duration} = build) do
     task =
