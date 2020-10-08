@@ -307,7 +307,19 @@ defmodule Jenkiexs.Jobs do
     end
   end
 
-  @spec url(Job.t()) :: binary()
+  @doc """
+  Returns the job URL based on a given Job.
+
+  ## Examples
+
+      iex> Jenkiexs.Jobs.url(%Jenkiexs.Jobs.Job{name: "example"})
+      "http://localhost:8888/job/example"
+
+      iex> Jenkiexs.Jobs.url("example")
+      "http://localhost:8888/job/example"
+  """
+
+  @spec url(Job.t() | binary()) :: binary()
   def url(%Job{name: job} = _job),
     do: url(job)
 
