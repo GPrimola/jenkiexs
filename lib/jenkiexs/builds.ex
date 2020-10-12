@@ -27,8 +27,8 @@ defmodule Jenkiexs.Builds do
         build = new(job_name, body)
         {:ok, build}
 
-      response ->
-        {:error, inspect(response)}
+      %{status_code: status, body: body} ->
+        {:error, "Got status #{status} with body #{inspect(body)}."}
     end
   end
 

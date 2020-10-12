@@ -35,4 +35,23 @@ defmodule Jenkiexs.BuildsTest do
                Builds.last(job_name)
     end
   end
+
+  describe "details/2" do
+    test "should return build details of the given build" do
+      build = %Build{job_name: "success_job", number: "42"}
+      assert {:ok, build} = Builds.details(build)
+    end
+
+    test "should return error when build doesn't exist" do
+      build = %Build{job_name: "not_found_job", number: "42"}
+      assert {:error, "Got status 404 with body \"\"."} = Builds.details(build)
+    end
+
+    test "should return error when something is wrong" do
+      build = %Build{job_name: "broken_job", number: "42"}
+
+      assert {:error, "Got status 500 with body \"something went wrong\"."} =
+               Builds.details(build)
+    end
+  end
 end
