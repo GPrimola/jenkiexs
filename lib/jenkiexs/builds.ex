@@ -7,6 +7,23 @@ defmodule Jenkiexs.Builds do
 
   defdelegate monitor(build), to: Monitor
 
+  @doc """
+  Returns the details of a given build.
+
+  Uses Jenkins "/job/<job_name>/<build_number>/api/json endpoint.
+
+  ## Examples
+
+      iex> Jenkiexs.Builds.details(%Jenkiexs.Builds.Job{job_name: "example"}, %Jenkiexs.Builds.Build{number: 42})
+      {:ok, %Jenkiexs.Builds.Build{}}
+
+      iex> Jenkiexs.Builds.details(%Jenkiexs.Builds.Build{job_name: "example"}, 42)
+      {:ok, %Jenkiexs.Builds.Build{}}
+
+      iex> Jenkiexs.Builds.details("example", 42)
+      {:ok, %Jenkiexs.Builds.Build{}}
+  """
+
   @spec details(Build.t()) :: {:ok, Build.t()} | {:error, binary()}
   def details(%Build{job_name: job_name, number: build_number}),
     do: details(job_name, build_number)
