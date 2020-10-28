@@ -13,7 +13,17 @@ defmodule Jenkiexs.MockServer.Jenkins do
 
   get "/job/:job_name/api/json" do
     case conn.params["job_name"] do
-      _job -> true
+      "success_job" ->
+        job =
+          :build
+          |> build()
+          |> Map.put(:_class, "org.jenkinsci.plugins.workflow.job.WorkflowJob")
+          |> Jason.encode!()
+
+        send_resp(conn, 200, job)
+
+      _ ->
+        send_resp(conn, 500, "something went wrong")
     end
   end
 
