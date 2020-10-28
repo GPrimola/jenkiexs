@@ -363,7 +363,7 @@ defmodule Jenkiexs.Jobs do
       end)
       |> Map.new()
 
-    %{path: path} = unless is_nil(url), do: URI.parse(url)
+    %{path: path} = unless is_nil(url), do: URI.parse(url), else: %{path: nil}
 
     path =
       if not is_nil(path) and String.starts_with?(path, "/job") do

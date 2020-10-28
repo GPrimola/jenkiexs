@@ -40,7 +40,12 @@ defmodule Jenkiexs.Factory do
       "duration" => 1234,
       "estimatedDuration" => 1234,
       "result" => "SUCCESS",
-      "timestamp" => NaiveDateTime.utc_now()
+      "timestamp" => NaiveDateTime.utc_now(),
+      "fullName" => sequence("fullName", &"Full Name #{&1}"),
+      "description" => sequence("description", &"Description #{&1}"),
+      "displayName" => sequence("displayName", &"Display Name #{&1}"),
+      "fullDisplayName" => sequence("fullDisplayName", &"Full Display Name #{&1}"),
+      "nextBuildNumber" => sequence("nextBuildNumber", & &1)
     }
   end
 

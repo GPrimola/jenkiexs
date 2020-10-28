@@ -16,4 +16,11 @@ defmodule Jenkiexs.JobsTest do
       assert "#{base_url}/job/example" == Jobs.url("example")
     end
   end
+
+  describe "details/1" do
+    test "should return the job details for a given job" do
+      job = %Job{name: "success_job"}
+      assert {:ok, %Job{}} = Jobs.details(job)
+    end
+  end
 end
