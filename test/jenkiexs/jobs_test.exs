@@ -3,6 +3,14 @@ defmodule Jenkiexs.JobsTest do
 
   alias Jenkiexs.{Jobs, Jobs.Job}
 
+  describe "all/0" do
+    test "should return a list of all jobs" do
+      assert {:ok, jobs} = Jobs.all()
+      assert is_list(jobs)
+      assert length(jobs) == 5
+    end
+  end
+
   describe "url/1" do
     test "should return the given job url" do
       base_url = Application.get_env(:jenkiexs, :client)[:url]

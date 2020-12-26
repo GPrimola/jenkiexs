@@ -4,10 +4,11 @@ defmodule Jenkiexs.MockServer.Jenkins do
   get "/api/json" do
     cond do
       is_nil(conn.params["tree"]) ->
-        nil
+        send_resp(conn, 400, "Bad Request")
 
       String.match?(conn.params["tree"], ~r/\Ajobs/) ->
-        "jobs[name,description,fullName,displayName,fullDisplayName,inQueue,buildable,disabled,nextBuildNumber,property[parameterDefinitions[name,defaultParameterValue[value]]]]"
+        resp = Map.put(%{}, :jobs, build_list(5, :job))
+        send_resp(conn, 200, Jason.encode!(resp))
     end
   end
 
