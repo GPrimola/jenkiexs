@@ -107,9 +107,8 @@ defmodule Jenkiexs.Jobs do
         {"/job/#{job_name}/buildWithParameters", {:form, params}}
       end
 
-    with {:ok, %{status_code: 201}} <- Client.post(build_endpoint, req_body),
-         {:ok, job} <- details(job_name) do
-      Builds.last(job)
+    with {:ok, %{status_code: 201}} <- Client.post(build_endpoint, req_body) do
+      Builds.last(job_name)
     else
       {:error, reason} ->
         {:error, inspect(reason)}
