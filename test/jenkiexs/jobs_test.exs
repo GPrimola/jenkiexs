@@ -11,6 +11,14 @@ defmodule Jenkiexs.JobsTest do
     end
   end
 
+  describe "all!/0" do
+    test "should return a list of all jobs" do
+      assert jobs = Jobs.all!()
+      assert is_list(jobs)
+      assert length(jobs) == 5
+    end
+  end
+
   describe "url/1" do
     test "should return the given job url" do
       base_url = Application.get_env(:jenkiexs, :client)[:url]
@@ -46,6 +54,22 @@ defmodule Jenkiexs.JobsTest do
     test "should return error with reason when job doesn't exist" do
       assert {:error, reason} = Jobs.build("not_found_job")
       assert "Got status 404 with body \"\"." == reason
+    end
+  end
+
+  describe "build!/2" do
+    test "should start a build of the given job" do
+      assert %Build{} = Jobs.build!("success_job")
+    end
+
+    test "should start a build of the given job with parameters" do
+      assert %Build{} = Jobs.build!("success_job", param: 1)
+    end
+
+    test "should return error with reason when job doesn't exist" do
+      assert_raise RuntimeError, "Got status 404 with body \"\".", fn ->
+        Jobs.build!("not_found_job")
+      end
     end
   end
 end

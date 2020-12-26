@@ -136,7 +136,7 @@ defmodule Jenkiexs.Jobs do
   def build!(job_name, params) do
     case build(job_name, params) do
       {:ok, build} -> build
-      {:error, reason} -> reason
+      {:error, reason} -> raise reason
     end
   end
 
