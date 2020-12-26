@@ -59,12 +59,10 @@ defmodule Jenkiexs.MockServer.Jenkins do
   end
 
   post "/job/:job_name/build" do
-    case conn.params["job_name"] do
-      _job -> true
-    end
+    send_resp(conn, 201, "")
   end
 
   post "/job/:job_name/buildWithParameters" do
-    send_resp(conn, 200, Jason.encode!(%{token: "token", apiKey: "apiKey"}))
+    send_resp(conn, 201, "")
   end
 end
