@@ -20,6 +20,9 @@ defmodule Jenkiexs.Builds.Monitor do
   """
 
   @spec monitor(Build.t()) :: {:ok, Task.t()}
+  def monitor(%Build{estimated_duration: duration} = build) when not is_number(duration),
+    do: monitor(%{build | estimated_duration: 0})
+
   def monitor(%Build{estimated_duration: duration} = build) do
     task =
       Task.async(fn ->
