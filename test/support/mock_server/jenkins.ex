@@ -46,6 +46,15 @@ defmodule Jenkiexs.MockServer.Jenkins do
       %{"job_name" => "success_job", "build_number" => "42"} ->
         send_resp(conn, 200, Jason.encode!(build(:build)))
 
+      %{"job_name" => "success_job", "build_number" => number} when number == "-1" ->
+        send_resp(
+          conn,
+          200,
+          Jason.encode!(
+            build(:build, %{"number" => String.to_integer(number), "building" => false})
+          )
+        )
+
       %{"job_name" => "not_found_job", "build_number" => "42"} ->
         send_resp(conn, 404, "")
 
