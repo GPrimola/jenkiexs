@@ -110,6 +110,9 @@ defmodule Jenkiexs.Jobs do
     with {:ok, %{status_code: 201}} <- Client.post(build_endpoint, req_body) do
       Builds.last(job_name)
     else
+      {:ok, %{status_code: status, body: body}} ->
+        {:error, "Could not build job #{job_name}. Received status #{status} with body: #{body}"}
+
       {:error, reason} ->
         {:error, inspect(reason)}
 
@@ -156,14 +159,18 @@ defmodule Jenkiexs.Jobs do
   """
   @spec build_monitored(Job.t() | job_name(), keyword()) ::
           {:ok, Task.t()} | {:error, reason :: binary()}
-  def build_monitored(job, params \\ []) do
-    case build(job, params) do
+  def build_monitored(job, params \\ [])
+
+  def build_monitored(%Job{name: job_name}, params),
+    do: build_monitored(job_name, params)
+
+  def build_monitored(job_name, params) do
+    case build(job_name, params) do
       {:error, reason} ->
         {:error, reason}
 
       {:ok, build} ->
-        task = Builds.monitor(build)
-        {:ok, task}
+        Builds.monitor(build)
     end
   end
 
