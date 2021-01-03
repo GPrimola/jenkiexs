@@ -10,7 +10,7 @@ defmodule Jenkiexs.MixProject do
     [
       app: :jenkiexs,
       version: @version,
-      elixir: "~> 1.9",
+      elixir: "~> 1.8",
       start_permanent: Mix.env() == :prod,
       description: "Jenkins client written in Elixir",
       package: package(),
