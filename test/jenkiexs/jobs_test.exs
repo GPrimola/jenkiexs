@@ -72,4 +72,29 @@ defmodule Jenkiexs.JobsTest do
       end
     end
   end
+
+  describe "build_monitored/2" do
+    test "should return tuple {:ok, task} when job can be built" do
+      job = %Job{name: "success_job"}
+      assert {:ok, task} = Jobs.build_monitored(job)
+      assert %Task{} = task
+    end
+
+    test "should return tuple {:error, reason} when job cannot be built" do
+      job = %Job{name: "not_buildable_job"}
+      assert {:error, reason} = Jobs.build_monitored(job)
+
+      assert match?(
+               "Could not build job not_buildable_job. Received status 400 with body: Not valid request",
+               reason
+             )
+    end
+
+    test "should return tuple {:ok, task} when job can be built with params" do
+      job = %Job{name: "success_job"}
+      params = [{"param1", "value"}]
+      assert {:ok, task} = Jobs.build_monitored(job, params)
+      assert %Task{} = task
+    end
+  end
 end

@@ -68,7 +68,11 @@ defmodule Jenkiexs.MockServer.Jenkins do
   end
 
   post "/job/:job_name/build" do
-    send_resp(conn, 201, "")
+    case conn.params["job_name"] do
+      "buildable_job" -> send_resp(conn, 201, "")
+      "not_buildable_job" -> send_resp(conn, 400, "Not valid request")
+      _ -> send_resp(conn, 201, "")
+    end
   end
 
   post "/job/:job_name/buildWithParameters" do
