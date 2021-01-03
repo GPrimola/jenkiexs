@@ -1,7 +1,7 @@
 defmodule Jenkiexs.MixProject do
   use Mix.Project
 
-  @version "0.9.5"
+  @version "1.0.1"
   @source_url "https://github.com/GPrimola/jenkiexs"
   @licenses ["Apache-2.0"]
   @logo_path "priv/img/jenkiexs-logo.png"

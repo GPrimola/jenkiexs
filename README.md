@@ -16,7 +16,7 @@ Add `jenkiexs` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:jenkiexs, "~> 0.9.5"}
+    {:jenkiexs, "~> 1.0.1"}
   ]
 end
 ```
