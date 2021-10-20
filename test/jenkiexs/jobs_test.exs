@@ -97,4 +97,31 @@ defmodule Jenkiexs.JobsTest do
       assert %Task{} = task
     end
   end
+
+  describe "get_console_text/2" do
+    test "should return console text when job exists" do
+      job = %Job{name: "success_job"}
+      assert {:ok, "log_text"} = Jobs.get_console_text(job, 42)
+    end
+
+    test "should return error with reason when job doesn't exist or internal error" do
+      job = %Job{name: "not_found_job"}
+      assert {:error, _} = Jobs.get_console_text(job, 42)
+    end
+  end
+
+  describe "get_console_text!/2" do
+    test "should return console text when job exists" do
+      job = %Job{name: "success_job"}
+      assert "log_text" = Jobs.get_console_text!(job, 42)
+    end
+
+    test "should return error with reason when job doesn't exist or internal error" do
+      job = %Job{name: "not_found_job"}
+      assert_raise RuntimeError, fn ->
+        Jobs.get_console_text!(job, 42)
+      end
+    end
+  end
+
 end

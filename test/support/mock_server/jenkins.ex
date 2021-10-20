@@ -63,6 +63,19 @@ defmodule Jenkiexs.MockServer.Jenkins do
     end
   end
 
+  get "/job/:job_name/:build_number/consoleText" do
+    case conn.params do
+      %{"job_name" => "success_job", "build_number" => "42"} ->
+        send_resp(conn, 200, "log_text")
+
+      %{"job_name" => "not_found_job", "build_number" => "42"} ->
+        send_resp(conn, 404, "")
+
+      _ ->
+        send_resp(conn, 500, "something went wrong")
+    end
+  end
+
   get "/crumbIssuer/api/xml" do
     send_resp(conn, 200, ":")
   end
