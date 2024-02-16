@@ -1,23 +1,23 @@
-name: Jenkiexs CD
+name: Deploy Jenkiexs
 
 on:
   workflow_run:
-    workflows: ["Jenkiexs Master CI"]
+    workflows: ["Main CI"]
     types:
       - completed
 
-
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up Elixir
       uses: erlef/setup-beam@v1
       with:
-        elixir-version: '1.8.x'
-        otp-version: '22.3'
+        elixir-version: '1.8.2'
+        otp-version: '22.3.4.26'
+        version-type: 'strict'
     - name: Cache Dependencies
       uses: actions/cache@v2
       with:
@@ -26,6 +26,7 @@ jobs:
           deps
           doc
           mix.exs
+          mix.lock
         key: ${{ runner.os }}-mix-prod-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
         restore-keys: |
           ${{ runner.os }}-mix-prod-
@@ -50,16 +51,17 @@ jobs:
       run: mix docs
 
   check_package:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: build
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up Elixir
       uses: erlef/setup-beam@v1
       with:
-        elixir-version: '1.8.x'
-        otp-version: '22.3'
+        elixir-version: '1.8.2'
+        otp-version: '22.3.4.26'
+        version-type: 'strict'
     - name: Cache Dependencies
       uses: actions/cache@v2
       with:
@@ -68,6 +70,7 @@ jobs:
           deps
           doc
           mix.exs
+          mix.lock
         key: ${{ runner.os }}-mix-prod-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
         restore-keys: |
           ${{ runner.os }}-mix-prod-
@@ -77,16 +80,17 @@ jobs:
       run: mix hex.publish --dry-run
 
   publish_package:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: check_package
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up Elixir
       uses: erlef/setup-beam@v1
       with:
-        elixir-version: '1.8.x'
-        otp-version: '22.3'
+        elixir-version: '1.8.2'
+        otp-version: '22.3.4.26'
+        version-type: 'strict'
     - name: Cache Dependencies
       uses: actions/cache@v2
       with:
@@ -95,6 +99,7 @@ jobs:
           deps
           doc
           mix.exs
+          mix.lock
         key: ${{ runner.os }}-mix-prod-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
         restore-keys: |
           ${{ runner.os }}-mix-prod-
@@ -105,18 +110,20 @@ jobs:
 
 
   update_version:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: publish_package
-
+    permissions:
+      contents: write
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up Elixir
         uses: erlef/setup-beam@v1
         with:
-          elixir-version: '1.8.x'
-          otp-version: '22.3'
+          elixir-version: '1.8.2'
+          otp-version: '22.3.4.26'
+          version-type: 'strict'
       - name: Update README.md and mix.exs
         run: |
           elixir ./scripts/update_version.exs

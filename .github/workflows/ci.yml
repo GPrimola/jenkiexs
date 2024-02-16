@@ -1,18 +1,23 @@
 name: Jenkiexs CI
 
-on: [ push, pull_request ]
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up Elixir
       uses: erlef/setup-beam@v1
       with:
-        elixir-version: '1.9.x'
-        otp-version: '22.3'
+        elixir-version: '1.8.2'
+        otp-version: '22.3.4.26'
+        version-type: 'strict'
     - name: Cache Dependencies
       uses: actions/cache@v2
       with:
@@ -37,16 +42,17 @@ jobs:
       run: mix compile
 
   lint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: build
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up Elixir
       uses: erlef/setup-beam@v1
       with:
-        elixir-version: '1.9.x'
-        otp-version: '22.3'
+        elixir-version: '1.8.2'
+        otp-version: '22.3.4.26'
+        version-type: 'strict'
     - name: Cache Dependencies
       uses: actions/cache@v2
       with:
@@ -62,16 +68,17 @@ jobs:
       run: mix format --check-formatted
 
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: build
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up Elixir
       uses: erlef/setup-beam@v1
       with:
-        elixir-version: '1.9.x'
-        otp-version: '22.3'
+        elixir-version: '1.8.2'
+        otp-version: '22.3.4.26'
+        version-type: 'strict'
     - name: Cache Dependencies
       uses: actions/cache@v2
       with:
@@ -85,21 +92,20 @@ jobs:
     - run: mix test
 
   coverage:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: test
 
     env:
       MIX_ENV: test
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@v2
-
+      - uses: actions/checkout@v3
       - name: Set up Elixir
         uses: erlef/setup-beam@v1
         with:
-          elixir-version: '1.9.x'
-          otp-version: '22.3'
-
+          elixir-version: '1.8.2'
+          otp-version: '22.3.4.26'
+          version-type: 'strict'
       - name: Cache Dependencies
         uses: actions/cache@v2
         with:
