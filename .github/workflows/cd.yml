@@ -132,7 +132,7 @@ jobs:
           if [[ -n $(git diff --stat) ]]
           then
             git commit -am "Updated README.md and mix.exs to version $(cat version)."
-            git push origin master
+            git push origin main
           else
             echo "Already updated with version."
           fi
